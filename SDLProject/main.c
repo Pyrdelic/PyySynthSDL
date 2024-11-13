@@ -304,7 +304,7 @@ void audioCallbackV4(void* userdata, Uint8* stream, int len) {
 	//printf("Active voices: ");
 
 	// test stuff
-	if (1) {
+	if (0) {
 		if (debugOnce) {
 			printf("AudioCallback:\n");
 			/*printf("ADC PTR: %p\n", *ad);
@@ -380,6 +380,38 @@ void audioCallbackV4(void* userdata, Uint8* stream, int len) {
 
 }
 
+// TODO: refine & foolproof
+int deviceSelection(int min, int max) {
+	char buffer[100];
+	int value;
+	char* endptr;
+
+	while (1) {
+		printf("Select MIDI device: ");
+		if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+			// Try to convert input to integer using strtol
+			value = strtol(buffer, &endptr, 10);
+
+			// Check for conversion errors
+			if (*endptr != '\0' && *endptr != '\n') {
+				printf("Invalid input: not a valid integer.\n");
+			}
+			else if (value < min || value > max) {
+				printf("Selection out of range.\n");
+			}
+			else {
+				//printf("You entered: %d\n", value);
+				// valid input
+				break;
+			}
+		}
+		else {
+			printf("Error reading input.\n");
+		}
+	}
+	return value;
+}
+
 
 PortMidiStream* openMIDIStream() {
 	PmError err = Pm_Initialize();
@@ -404,14 +436,14 @@ PortMidiStream* openMIDIStream() {
 
 	// MIDI device selection
 	int midiDeviceSelection;
-	if (1) {
+	if (0) {
 		midiDeviceSelection = 2;
 		printf("Autoselected MIDI device %d\n", midiDeviceSelection);
 	}
 	else {
 		printf("Select a MIDI device: ");
-		scanf_s("%d", &midiDeviceSelection, 1);
-		printf("\n");
+		midiDeviceSelection = deviceSelection(0, numDevices);
+		printf("Selected device: %u", midiDeviceSelection);
 	}
 
 
