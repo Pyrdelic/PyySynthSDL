@@ -178,6 +178,10 @@ void destroy_window()
 	SDL_Quit();
 }
 
+void handleKeyboardEvent(SDL_KeyboardEvent e) {
+
+}
+
 void processInput(uint32_t* ims)
 {
 	unsigned char qwertyChannel = 0;
@@ -194,7 +198,8 @@ void processInput(uint32_t* ims)
 	case SDL_QUIT:
 		gRunning = 0;
 		break;
-	case SDL_KEYDOWN:
+	case SDL_KEYDOWN: {
+		SDL_KeyboardEvent ke = event.key;
 		if (event.key.keysym.sym == SDLK_SPACE) {
 			gDebug = 0;
 			gPause = 0;
@@ -215,19 +220,20 @@ void processInput(uint32_t* ims)
 
 		// TODO: Handle key repeat
 		// QWERTY note ons
-		if (event.key.keysym.sym == SDLK_q) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 127)); }
-		if (event.key.keysym.sym == SDLK_2) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, 127)); }
-		if (event.key.keysym.sym == SDLK_w) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, 127)); }
-		if (event.key.keysym.sym == SDLK_3) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 63, 127)); }
-		if (event.key.keysym.sym == SDLK_e) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 64, 127)); }
-		if (event.key.keysym.sym == SDLK_r) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 65, 127)); }
-		if (event.key.keysym.sym == SDLK_5) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 66, 127)); }
-		if (event.key.keysym.sym == SDLK_t) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, 127)); }
-		if (event.key.keysym.sym == SDLK_6) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, 127)); }
-		if (event.key.keysym.sym == SDLK_y) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, 127)); }
-		if (event.key.keysym.sym == SDLK_u) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 127)); }
+		if (ke.keysym.sym == SDLK_q && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 127)); }
+		if (ke.keysym.sym == SDLK_2 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, 127)); }
+		if (ke.keysym.sym == SDLK_w && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, 127)); }
+		if (ke.keysym.sym == SDLK_3 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 63, 127)); }
+		if (ke.keysym.sym == SDLK_e && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 64, 127)); }
+		if (ke.keysym.sym == SDLK_r && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 65, 127)); }
+		if (ke.keysym.sym == SDLK_5 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 66, 127)); }
+		if (ke.keysym.sym == SDLK_t && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, 127)); }
+		if (ke.keysym.sym == SDLK_6 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, 127)); }
+		if (ke.keysym.sym == SDLK_y && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, 127)); }
+		if (ke.keysym.sym == SDLK_u && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 127)); }
 
 		break;
+	}
 	case SDL_KEYUP:
 		// TODO: Handle key repeat
 		// QWERTY note offs
