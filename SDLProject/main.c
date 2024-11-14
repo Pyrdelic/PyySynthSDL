@@ -178,8 +178,9 @@ void destroy_window()
 	SDL_Quit();
 }
 
-void processInput()
+void processInput(uint32_t* ims)
 {
+	unsigned char qwertyChannel = 0;
 	SDL_Event event;
 	SDL_PollEvent(&event);
 
@@ -211,6 +212,37 @@ void processInput()
 			gRunning = 0;
 			break;
 		}
+
+		// TODO: Handle key repeat
+		// QWERTY note ons
+		if (event.key.keysym.sym == SDLK_q) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 127)); }
+		if (event.key.keysym.sym == SDLK_2) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, 127)); }
+		if (event.key.keysym.sym == SDLK_w) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, 127)); }
+		if (event.key.keysym.sym == SDLK_3) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 63, 127)); }
+		if (event.key.keysym.sym == SDLK_e) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 64, 127)); }
+		if (event.key.keysym.sym == SDLK_r) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 65, 127)); }
+		if (event.key.keysym.sym == SDLK_5) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 66, 127)); }
+		if (event.key.keysym.sym == SDLK_t) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, 127)); }
+		if (event.key.keysym.sym == SDLK_6) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, 127)); }
+		if (event.key.keysym.sym == SDLK_y) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, 127)); }
+		if (event.key.keysym.sym == SDLK_u) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 127)); }
+
+		break;
+	case SDL_KEYUP:
+		// TODO: Handle key repeat
+		// QWERTY note offs
+		if (event.key.keysym.sym == SDLK_q) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 0)); }
+		if (event.key.keysym.sym == SDLK_2) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, 0)); }
+		if (event.key.keysym.sym == SDLK_w) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, 0)); }
+		if (event.key.keysym.sym == SDLK_3) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 63, 0)); }
+		if (event.key.keysym.sym == SDLK_e) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 64, 0)); }
+		if (event.key.keysym.sym == SDLK_r) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 65, 0)); }
+		if (event.key.keysym.sym == SDLK_5) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 66, 0)); }
+		if (event.key.keysym.sym == SDLK_t) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, 0)); }
+		if (event.key.keysym.sym == SDLK_6) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, 0)); }
+		if (event.key.keysym.sym == SDLK_y) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, 0)); }
+		if (event.key.keysym.sym == SDLK_u) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 0)); }
+
 		break;
 	}
 	const Uint8* state = SDL_GetKeyboardState(NULL);
@@ -499,6 +531,7 @@ void processMidi(uint32_t* internalMessages, AudioDataV2** audioData) {
 		debugOnce = 0;
 	}
 
+	// loop through all internalMessages
 	while (!readInternalMessage(internalMessages, &msg)) {
 		unsigned char command = Pm_MessageStatus(msg) & 0xF0;
 		//printf("processMidi - Command: %u\n", (uint32_t)command);
@@ -551,6 +584,7 @@ void pollExternalMidiInput(PortMidiStream* stream, uint32_t* internalMessages) {
 	}
 }
 
+// TODO: switch to using standard return values (0: success, !0: failure)
 // returns 0 if write fails
 int writeInternalMessage(uint32_t* internalMessages, uint32_t internalMessage) {
 	// is the buffer full?
@@ -562,7 +596,7 @@ int writeInternalMessage(uint32_t* internalMessages, uint32_t internalMessage) {
 	im_writeHead++;
 	return PV_RET_SUCCESS;
 }
-// returns 0 if read fails without modifying target
+// returns 1 if read fails without modifying target
 int readInternalMessage(uint32_t* internalMessages, uint32_t* target) {
 	if (im_readHead == im_writeHead) { // is the buffer empty?
 		return 1;
@@ -578,7 +612,6 @@ void asdf(int* arr) {
 }
 
 int main(int argc, char* argv[]){
-
 	// audioData test
 	if (0) {
 		AudioDataV2* adTest = NULL;
@@ -664,9 +697,9 @@ int main(int argc, char* argv[]){
 	// Start audio device
 	SDL_PauseAudioDevice(1, 0);
 
-	while (gRunning) // MAIN LOOP, EVERY VISUAL FRAME
+	while (gRunning) // Main loop for visuals, input
 	{
-		processInput();
+		
 			
 
 
@@ -674,7 +707,7 @@ int main(int argc, char* argv[]){
 
 		pollExternalMidiInput(pMidiStream, &internalMessages);
 		processMidi(&internalMessages, &ad);
-
+		processInput(internalMessages);
 		drawSDL(vispoints, visbuf);
 
 		SDL_GL_SwapWindow(gWindow);
