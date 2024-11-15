@@ -178,10 +178,6 @@ void destroy_window()
 	SDL_Quit();
 }
 
-void handleKeyboardEvent(SDL_KeyboardEvent e) {
-
-}
-
 void processInput(uint32_t* ims)
 {
 	unsigned char qwertyChannel = 0;
@@ -200,6 +196,7 @@ void processInput(uint32_t* ims)
 		break;
 	case SDL_KEYDOWN: {
 		SDL_KeyboardEvent ke = event.key;
+		unsigned char vel = 127;
 		if (event.key.keysym.sym == SDLK_SPACE) {
 			gDebug = 0;
 			gPause = 0;
@@ -217,26 +214,56 @@ void processInput(uint32_t* ims)
 			gRunning = 0;
 			break;
 		}
-
-		// TODO: Handle key repeat
 		// QWERTY note ons
-		if (ke.keysym.sym == SDLK_q && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 127)); }
-		if (ke.keysym.sym == SDLK_2 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, 127)); }
-		if (ke.keysym.sym == SDLK_w && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, 127)); }
-		if (ke.keysym.sym == SDLK_3 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 63, 127)); }
-		if (ke.keysym.sym == SDLK_e && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 64, 127)); }
-		if (ke.keysym.sym == SDLK_r && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 65, 127)); }
-		if (ke.keysym.sym == SDLK_5 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 66, 127)); }
-		if (ke.keysym.sym == SDLK_t && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, 127)); }
-		if (ke.keysym.sym == SDLK_6 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, 127)); }
-		if (ke.keysym.sym == SDLK_y && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, 127)); }
-		if (ke.keysym.sym == SDLK_u && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 127)); }
+		// C3 - C4 (z - ,)
+		if (ke.keysym.sym == SDLK_z && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 48, vel)); }
+		if (ke.keysym.sym == SDLK_s && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 49, vel)); }
+		if (ke.keysym.sym == SDLK_x && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 50, vel)); }
+		if (ke.keysym.sym == SDLK_d && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 51, vel)); }
+		if (ke.keysym.sym == SDLK_c && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 52, vel)); }
+		if (ke.keysym.sym == SDLK_v && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 53, vel)); }
+		if (ke.keysym.sym == SDLK_g && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 54, vel)); }
+		if (ke.keysym.sym == SDLK_b && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 55, vel)); }
+		if (ke.keysym.sym == SDLK_h && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 56, vel)); }
+		if (ke.keysym.sym == SDLK_n && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 57, vel)); }
+		if (ke.keysym.sym == SDLK_j && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 58, vel)); }
+		if (ke.keysym.sym == SDLK_m && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 59, vel)); }
+		if (ke.keysym.sym == SDLK_COMMA && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, vel)); }
+		// C4 - C5 (q - i)
+		if (ke.keysym.sym == SDLK_q && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, vel)); }
+		if (ke.keysym.sym == SDLK_2 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, vel)); }
+		if (ke.keysym.sym == SDLK_w && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, vel)); }
+		if (ke.keysym.sym == SDLK_3 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 63, vel)); }
+		if (ke.keysym.sym == SDLK_e && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 64, vel)); }
+		if (ke.keysym.sym == SDLK_r && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 65, vel)); }
+		if (ke.keysym.sym == SDLK_5 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 66, vel)); }
+		if (ke.keysym.sym == SDLK_t && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, vel)); }
+		if (ke.keysym.sym == SDLK_6 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, vel)); }
+		if (ke.keysym.sym == SDLK_y && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, vel)); }
+		if (ke.keysym.sym == SDLK_7 && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, vel)); }
+		if (ke.keysym.sym == SDLK_u && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 71, vel)); }
+		if (ke.keysym.sym == SDLK_i && !ke.repeat) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 72, vel)); }
 
 		break;
 	}
-	case SDL_KEYUP:
-		// TODO: Handle key repeat
+	case SDL_KEYUP: {
+		SDL_KeyboardEvent ke = event.key;
 		// QWERTY note offs
+		// C3 (z - ,)
+		if (ke.keysym.sym == SDLK_z) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 48, 0)); }
+		if (ke.keysym.sym == SDLK_s) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 49, 0)); }
+		if (ke.keysym.sym == SDLK_x) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 50, 0)); }
+		if (ke.keysym.sym == SDLK_d) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 51, 0)); }
+		if (ke.keysym.sym == SDLK_c) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 52, 0)); }
+		if (ke.keysym.sym == SDLK_v) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 53, 0)); }
+		if (ke.keysym.sym == SDLK_g) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 54, 0)); }
+		if (ke.keysym.sym == SDLK_b) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 55, 0)); }
+		if (ke.keysym.sym == SDLK_h) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 56, 0)); }
+		if (ke.keysym.sym == SDLK_n) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 57, 0)); }
+		if (ke.keysym.sym == SDLK_j) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 58, 0)); }
+		if (ke.keysym.sym == SDLK_m) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 59, 0)); }
+		if (ke.keysym.sym == SDLK_COMMA) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 0)); }
+		// C4 - C5 (q - i)
 		if (event.key.keysym.sym == SDLK_q) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 60, 0)); }
 		if (event.key.keysym.sym == SDLK_2) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 61, 0)); }
 		if (event.key.keysym.sym == SDLK_w) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 62, 0)); }
@@ -247,18 +274,13 @@ void processInput(uint32_t* ims)
 		if (event.key.keysym.sym == SDLK_t) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 67, 0)); }
 		if (event.key.keysym.sym == SDLK_6) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 68, 0)); }
 		if (event.key.keysym.sym == SDLK_y) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 69, 0)); }
-		if (event.key.keysym.sym == SDLK_u) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 0)); }
-
+		if (event.key.keysym.sym == SDLK_7) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 70, 0)); }
+		if (event.key.keysym.sym == SDLK_u) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 71, 0)); }
+		if (event.key.keysym.sym == SDLK_i) { writeInternalMessage(ims, Pm_Message(NOTE_ON | qwertyChannel, 72, 0)); }
 		break;
 	}
-	const Uint8* state = SDL_GetKeyboardState(NULL);
-	if (state[SDL_SCANCODE_UP]) {
-		u_Offset += 0.01f;
-		printf("u_Offset: %.2f\n", u_Offset);
-	}
-	if (state[SDL_SCANCODE_DOWN]) {
-		u_Offset -= 0.01f;
-		printf("u_Offset: %.2f\n", u_Offset);
+	default:
+		break;
 	}
 }
 
