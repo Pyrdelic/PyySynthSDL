@@ -51,6 +51,7 @@
 #include "visbuf.h";
 
 int gRunning = 0;
+unsigned char gQwertyChannel = 0;
 SDL_Window* gWindow = NULL;
 SDL_GLContext gOpenGLContext = NULL;
 
@@ -180,7 +181,7 @@ void destroy_window()
 
 void processInput(uint32_t* ims)
 {
-	unsigned char qwertyChannel = 0;
+	unsigned char qwertyChannel = gQwertyChannel;
 	SDL_Event event;
 	SDL_PollEvent(&event);
 
@@ -200,6 +201,16 @@ void processInput(uint32_t* ims)
 		if (event.key.keysym.sym == SDLK_SPACE) {
 			gDebug = 0;
 			gPause = 0;
+		}
+		if (event.key.keysym.sym == SDLK_PAGEUP) {
+			if (gQwertyChannel < MAX_INSTRUMENTS-1) {
+				gQwertyChannel += 1;
+			}
+		}
+		if (event.key.keysym.sym == SDLK_PAGEDOWN) {
+			if (gQwertyChannel > 0) {
+				gQwertyChannel -= 1;
+			}
 		}
 
 		if (event.key.keysym.sym == SDLK_s) {
@@ -496,7 +507,7 @@ PortMidiStream* openMIDIStream() {
 
 	// MIDI device selection
 	int midiDeviceSelection;
-	if (0) {
+	if (1) {
 		midiDeviceSelection = 2;
 		printf("Autoselected MIDI device %d\n", midiDeviceSelection);
 	}
