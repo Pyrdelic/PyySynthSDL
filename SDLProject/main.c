@@ -507,7 +507,7 @@ PortMidiStream* openMIDIStream() {
 
 	// MIDI device selection
 	int midiDeviceSelection;
-	if (1) {
+	if (0) {
 		midiDeviceSelection = 2;
 		printf("Autoselected MIDI device %d\n", midiDeviceSelection);
 	}
